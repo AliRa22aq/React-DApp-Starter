@@ -1,6 +1,8 @@
 import './App.css';
 import React, { useEffect, useState } from "react"
 import Web3 from "web3";
+import TokenABI = require("./abis/Token.json");
+import TokenType from '../types/web3-v1-contracts/TokenName';
 
 function App() {
 
@@ -31,11 +33,41 @@ function App() {
     }
   };
 
+  const loadBlockchainData = async () => {
+
+    setData(pre => { return { ...pre, loading: true } })
+    // const web3 = new Web3("https://ropsten.infura.io/v3/92a3eada72834b629e28ff80ba4af4d0");
+    // Initial web3 instance with current provider which is ethereum in our case
+    const web3 = new Web3(window.ethereum);
+
+    // Detect which Ethereum network the user is connected to
+    let networkId = await web3.eth.net.getId()
+    const TokenData = TokenABI.networks[networkId]
+
+    // setData(pre => { return { ...pre, farmtokenAddress: farmTokenData.address } })
+
+
+    // Load Contract Data
+    const tokenContract = new web3.eth.Contract(TokenABI.abi, TokenData.address)
+
+    setData(pre => { return { ...pre, contract: tokenContract } })
+
+
+    setData(pre => { return { ...pre, loading: false } })
+
+  };
+
+
   useEffect(() => {
     loadWeb3()
   }, [])
 
 
+  // useEffect(() => {
+  //   if (data.userAddress) {
+  //     loadBlockchainData()
+  //   }
+  // }, [data.userAddress, data.transfered])
 
   return (
     <div className="App">
