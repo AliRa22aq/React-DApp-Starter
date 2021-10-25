@@ -36,7 +36,7 @@ function App() {
   const loadBlockchainData = async () => {
 
     setData(pre => { return { ...pre, loading: true } })
-    // const web3 = new Web3("https://ropsten.infura.io/v3/92a3eada72834b629e28ff80ba4af4d0");
+    // const web3 = new Web3("https://ropsten.infura.io/v3/92a3eada7**********8ff80ba4af4d0");
     // Initial web3 instance with current provider which is ethereum in our case
     const web3 = new Web3(window.ethereum);
 
